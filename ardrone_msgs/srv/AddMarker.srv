@@ -1,0 +1,3 @@
+int32 num
+---
+ardrone_msgs/NavPose marker_coords

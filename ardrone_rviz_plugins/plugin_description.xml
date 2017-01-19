@@ -1,0 +1,25 @@
+<library path="lib/libardrone_rviz_plugins">
+    <class name="ardrone_rviz_plugins/ControlPanel"
+           type="ControlPanel"
+           base_class_type="rviz::Panel">
+        <description>
+            Ardrone control panel for create fly mission, choose mode and sending it to ardrone control system.
+        </description>
+    </class>
+
+    <class name="ardrone_rviz_plugins/TeleopPanel"
+           type="TeleopPanel"
+           base_class_type="rviz::Panel">
+        <description>
+            Ardrone teleop panel for control drone in manual mode. For start working you should set manual mode.
+        </description>
+    </class>
+    
+    <class name="ardrone_rviz_plugins/InfoPanel"
+           type="InfoPanel"
+           base_class_type="rviz::Panel">
+        <description>
+            Ardrone info panel. It shows diagnostic and navigational data of ardrone.
+        </description>
+    </class>
+</library>

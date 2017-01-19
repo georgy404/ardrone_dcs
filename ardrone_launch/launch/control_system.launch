@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!-- This lanuch file for run ardrone -->
+
+<launch>
+	<!-- driver -->
+	<include file="$(find ardrone_autonomy)/launch/ardrone.launch">
+	</include>
+	
+	<!-- mission planner -->
+	<node pkg="ardrone_mission_planner" name="mission_planner" type="mission_planner" respawn="true" output="screen">
+	</node>
+	
+	<!-- pid controller -->
+	<node pkg="ardrone_pid" name="ardrone_pid" type="ardrone_pid" respawn="true" output="screen">
+	</node>
+	
+	<!-- rviz plugins -->
+	<node pkg="ardrone_rviz_plugins" name="markers_server" type="markers_server" respawn="true"  output="screen">
+	</node>
+	<node pkg="rviz" type="rviz" name="rviz" args="-d $(find ardrone_launch)/ardrone.rviz">
+	</node>
+</launch>
+

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!-- This lanuch file for run lsd slam for ardrone -->
+
+<launch>	
+	<!-- lsd slam -->	
+	<node pkg="lsd_slam_core" name="lsd_slam_node" type="live_slam" 
+		  args="/image:=/ardrone/image_raw _calib:=$(find lsd_slam_core)/calib/camera1.cfg" output="screen">
+		<param name="minUseGrad" value="10" />
+		<param name="cameraPixelNoise" value="1"/>s
+		<param name="KFUsageWeight" value="14" />
+		<param name="KFDistWeight" value="14" />
+		<param name="useAffineLightningEstimation" value="True" />
+		<param name="relocalizationTH" value="0.1" />
+		<param name="useFabMap" value="True"/>
+	</node>
+</launch>
+

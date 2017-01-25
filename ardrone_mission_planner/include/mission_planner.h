@@ -20,7 +20,8 @@
 #include "ardrone_msgs/Mode.h"
 #include "std_msgs/Empty.h"
 #include "tf/transform_listener.h"
-
+#include "dynamic_reconfigure/server.h"
+#include"ardrone_mission_planner/MissionPlannerParamsConfig.h"
 
 class MissionPlanner
 {
@@ -46,6 +47,7 @@ public:
     void ModeCallback(const ardrone_msgs::Mode::ConstPtr &msg);
     void MissionCallback(const ardrone_msgs::Mission::ConstPtr &msg);
     void ListenTfTransform();
+    void DynConfCallback(ardrone_mission_planner::MissionPlannerParamsConfig &config, uint32_t level);
 
     
     // --- Control functions
@@ -55,9 +57,12 @@ public:
     bool CheckLand();
 
 private:
-//    std::stack<geometry_msgs::PoseStamped> mission;
     std::stack<ardrone_msgs::NavPose> mission;
     ardrone_msgs::NavPose drone_pose;
+    dynamic_reconfigure::Server<ardrone_mission_planner::MissionPlannerParamsConfig> dr_srv;
+    dynamic_reconfigure::Server<ardrone_mission_planner::MissionPlannerParamsConfig>::CallbackType dr_function;
+
+    double switch_dist;
     int mode;
     bool b_takeoff;
     bool b_land;

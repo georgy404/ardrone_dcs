@@ -48,7 +48,6 @@ public:
 
      // --- Markers interface functions
     InteractiveMarker MakeMarker(std::string name);
-    Marker MakeBox(InteractiveMarker &msg);
     InteractiveMarkerControl& MakeBoxControl(InteractiveMarker &msg);
     void UpdateBox(ardrone_msgs::NavPose target = ardrone_msgs::NavPose());
     void UpdateLines();

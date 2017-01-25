@@ -3,11 +3,17 @@ project(ardrone_mission_planner)
 
 ## Find catkin macros and libraries
 find_package(catkin REQUIRED COMPONENTS
+    ardrone_msgs
     geometry_msgs
+    dynamic_reconfigure
     nav_msgs
     roscpp
     std_msgs
     tf
+)
+
+generate_dynamic_reconfigure_options(
+  cfg/MissionPlannerParams.cfg
 )
 
 set(CMAKE_AUTOMOC ON)

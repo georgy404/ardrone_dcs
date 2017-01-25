@@ -157,8 +157,12 @@ void MarkersServer::ListenTFTranform()
 
 // --- Markers interface functions
 
-Marker MarkersServer::MakeBox(InteractiveMarker &msg)
+InteractiveMarkerControl& MarkersServer::MakeBoxControl(InteractiveMarker &msg)
 {
+    InteractiveMarkerControl control;
+
+    control.always_visible = true;
+
     Marker marker;
 
     marker.type = Marker::SPHERE;
@@ -169,16 +173,18 @@ Marker MarkersServer::MakeBox(InteractiveMarker &msg)
     marker.color.g = 0.5;
     marker.color.b = 0.5;
     marker.color.a = 1.0;
+    control.markers.push_back(marker);
 
-    return marker;
-}
+    marker.type = Marker::TEXT_VIEW_FACING;
+    marker.scale.z = msg.scale*0.7;
+    marker.pose.position.z += 0.3;
+    marker.color.r = 1.0;
+    marker.color.g = 1.0;
+    marker.color.b = 1.0;
+    marker.color.a = 1.0;
+    marker.text = msg.name;
+    control.markers.push_back(marker);
 
-InteractiveMarkerControl& MarkersServer::MakeBoxControl(InteractiveMarker &msg)
-{
-    InteractiveMarkerControl control;
-
-    control.always_visible = true;
-    control.markers.push_back(MakeBox(msg));
     msg.controls.push_back(control);
 
     return msg.controls.back();
@@ -190,7 +196,6 @@ InteractiveMarker MarkersServer::MakeMarker(std::string name)
     int_marker.header.frame_id = "odom";
     int_marker.header.stamp=ros::Time::now();
     int_marker.name = name;
-    int_marker.description = name;
     int_marker.scale = 0.3;
 
     // insert a box

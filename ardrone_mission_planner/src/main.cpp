@@ -1,9 +1,8 @@
 /**
 *  This file is part of ardrone_dcs.
 *
-*  Mission planner node receive mission (list of targets) from rviz 
-*  and controls execution of mission, switch command, 
-*  send single commands and control mode of ardrone.
+*  trajectory_planner planner node receive current target from mission_planner 
+*  and create trajectory as array of point, send it to ardrone_pid.
 *
 *  Copyright 2016 Georgy Konovalov <konovalov.g.404@gmail.com> (SFEDU)
 */

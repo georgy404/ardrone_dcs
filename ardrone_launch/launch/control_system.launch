@@ -3,8 +3,8 @@
 
 <launch>
 	<!-- driver -->
-	<include file="$(find ardrone_autonomy)/launch/ardrone.launch">
-	</include>
+	<!--include file="$(find ardrone_autonomy)/launch/ardrone.launch">
+	</include -->
 	
 	<!-- mission planner -->
 	<node pkg="ardrone_mission_planner" name="mission_planner" type="mission_planner" respawn="true" output="screen">

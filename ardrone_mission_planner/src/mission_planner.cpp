@@ -1,9 +1,8 @@
-﻿/**
+/**
 *  This file is part of ardrone_dcs.
 *
-*  Mission planner node receive mission (list of targets) from rviz 
-*  and controls execution of mission, switch command, 
-*  send single commands and control mode of ardrone.
+*  trajectory_planner planner node receive current target from mission_planner 
+*  and create trajectory as array of point, send it to ardrone_pid.
 *
 *  Copyright 2016 Georgy Konovalov <konovalov.g.404@gmail.com> (SFEDU)
 */
@@ -15,7 +14,8 @@ MissionPlanner::MissionPlanner() :
     b_takeoff(false),
     b_land(false),
     b_is_executable(false),
-    mode(-1)
+    mode(-1),
+    switch_dist(0.1)
 {
     std::cout.flush();
     std::cout << "Ardrone mission planner was started..." << std::endl;
@@ -23,13 +23,17 @@ MissionPlanner::MissionPlanner() :
     // Create node
     nh = new ros::NodeHandle();
 
+    // Set up reading mission planner parameters
+    dr_function = boost::bind(&MissionPlanner::DynConfCallback, this, _1, _2);
+    dr_srv.setCallback(dr_function);
+
     // Init ROS sub and pub
     mode_sub = nh->subscribe("/ardrone/mode", 10, &MissionPlanner::ModeCallback, this);
     mission_sub = nh->subscribe("/ardrone/mission", 10, &MissionPlanner::MissionCallback, this);
 
     takeoff_pub = nh->advertise<std_msgs::Empty>("/ardrone/takeoff", 10, true);
     land_pub = nh->advertise<std_msgs::Empty>("/ardrone/land", 10, true);
-    target_pub = nh->advertise<ardrone_msgs::NavPose>("/ardrone/goal", 10, true);
+    target_pub = nh->advertise<ardrone_msgs::NavPose>("/ardrone/target", 10, true);
 }
 
 MissionPlanner::~MissionPlanner()
@@ -70,9 +74,9 @@ void MissionPlanner::RunMission()
 								   (cur_target.z-drone_pose.z)*(cur_target.z-drone_pose.z) ) );
 
     std::cout << "dist = " << dist << std::endl;
-    if(dist <= 0.4) {
+    if(dist <= switch_dist) {
         mission.pop();
-        std::cout << "dist < 0.3, go to next\n";
+        std::cout << "dist < " << switch_dist << ", go to next\n";
 
         if(CheckLand())
             return;
@@ -125,6 +129,13 @@ void MissionPlanner::MissionCallback(const ardrone_msgs::Mission::ConstPtr &msg)
     for(int i = msg->mission.size()-1; i >= 0; i--) {
         mission.push(msg->mission.at(i));
     }
+}
+
+void MissionPlanner::DynConfCallback(ardrone_mission_planner::MissionPlannerParamsConfig &config, uint32_t /*level*/)
+{
+    std::cout << "New MP params\n";
+
+    switch_dist = config.Switch_dist;
 }
 
 // --- TF transform listener

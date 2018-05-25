@@ -2,6 +2,8 @@
 
 Ardrone Distributed Control System (DCS) is ROS package for control Parrot AR.Drone 2.0. Package can be used to control real drone or applied together with tum_simulator (http://wiki.ros.org/tum_simulator).
 
+Demonstration: https://www.youtube.com/watch?v=H8IYuXn3iiw
+
 ![screenshot from 2016-12-28 16 35 44](https://cloud.githubusercontent.com/assets/25231282/22289514/71895fa6-e315-11e6-927c-cc7830c4ca5d.png)
 ![screenshot from 2016-12-28 16 35 59](https://cloud.githubusercontent.com/assets/25231282/22289515/718b45b4-e315-11e6-8f72-660f711c4eca.png)
 
